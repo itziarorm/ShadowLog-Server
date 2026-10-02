@@ -41,7 +41,7 @@ const updatePlayer = async(shadowId, updates) =>{
 
     try{
         let updatedPlayer = await Shadow.findByIdAndUpdate(shadowId, {$set:updates}, {new:true});
-        
+
         return updatedPlayer;
     }
     catch (error)
@@ -50,10 +50,23 @@ const updatePlayer = async(shadowId, updates) =>{
     }
 }
 
+const deleteOnePlayer = async (shadowId) =>{
+
+    try{
+        let deletedPlayer = await Shadow.findByIdAndDelete(shadowId);
+        return deletedPlayer;
+    }
+    catch(error)
+    {
+        throw error;
+    }
+};
+
 
 export {
     getAllShadows,
     getOneShadow,
     createAnewPlayer, //ADD
-    updatePlayer
+    updatePlayer,
+    deleteOnePlayer
 }

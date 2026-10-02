@@ -1,4 +1,4 @@
-import { getAllShadows, getOneShadow, createAnewPlayer, updatePlayer } from '../database/Shadowdb.js';
+import { getAllShadows, getOneShadow, createAnewPlayer, updatePlayer, deleteOnePlayer } from '../database/Shadowdb.js';
 
 const getAllShadowService = async () => {
     try {
@@ -38,11 +38,22 @@ const updatePlayerService = async (shadowId, updates) => {
         const updatedPlayer = updatePlayer(shadowId, updates)
         return updatedPlayer
     }
-    catch(error)
-    {
-        throw error
+    catch (error) {
+        throw error;
     }
 
+}
+
+const deleteOnePlayerService = async (shadowId) => {
+    try {
+        let deletedPlayer = await deleteOnePlayer(shadowId)
+        return deletedPlayer;
+    }
+
+
+    catch (error) {
+        throw error;
+    }
 }
 
 export {
@@ -50,6 +61,7 @@ export {
     getAllShadowService,
     getOneShadowService,
     createAnewPlayerService,
-    updatePlayerService
+    updatePlayerService,
+    deleteOnePlayerService
 
 }

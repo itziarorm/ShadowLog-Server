@@ -1,4 +1,4 @@
-import { getAllShadowService, getOneShadowService, createAnewPlayerService, updatePlayerService } from '../services/DbService.js'
+import { getAllShadowService, getOneShadowService, createAnewPlayerService, updatePlayerService, deleteOnePlayerService } from '../services/DbService.js'
 
 const getAllShadowsController = async (req, res) => {
     try {
@@ -107,7 +107,7 @@ const updateOnePlayerController = async (req, res) => {
             });
     }
     try {
-        const updatedPlayer =  await updatePlayerService(shadowId, body)
+        const updatedPlayer = await updatePlayerService(shadowId, body)
         if (!updatedPlayer) {
             return res
                 .status(404)
@@ -130,6 +130,41 @@ const updateOnePlayerController = async (req, res) => {
     }
 };
 
+const deleteOnePlayerController = async (req, res) => {
+    const { params: { shadowId } } = req;
+
+    if (!shadowId) {
+        return res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: { error: "Parameter ':shadowId' can not be empty" }
+            });
+    }
+    try {
+        const deletedPlayer = await deleteOnePlayerService(shadowId)
+
+        if (!deletedPlayer) {
+            return res
+                .status(404)
+                .send({
+                    status: "FAILED",
+                    data: { error: `Can't find workout with the id '${shadowId}'` }
+                });
+        }
+        res.status(200).send({ status: "OK", data: deletedPlayer })
+    }
+    catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({
+                status: "FAILED",
+                message: "ERROR AL REALIZAR LA PETICION",
+                data: { error: error?.message || error }
+            })
+    }
+}
+
 
 
 
@@ -137,5 +172,6 @@ export {
     getAllShadowsController,
     getOnePlayerController,
     createAnewPlayerController,
-    updateOnePlayerController
+    updateOnePlayerController,
+    deleteOnePlayerController
 }
