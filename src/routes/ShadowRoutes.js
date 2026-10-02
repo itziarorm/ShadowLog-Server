@@ -15,4 +15,4 @@ router.patch("/:shadowId", updateOnePlayerController)
 router.delete("/:shadowId", deleteOnePlayerController)
 
 
-export default router;
+export default router
